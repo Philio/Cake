@@ -1,4 +1,4 @@
-package com.waracle.cakelist.data.remote
+package com.waracle.cakelist.data.model
 
 data class Cake(
     val title: String,

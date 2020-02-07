@@ -1,5 +1,6 @@
 package com.waracle.cakelist.data.remote
 
+import com.waracle.cakelist.data.model.Cake
 import retrofit2.http.GET
 
 interface CakeService {
