@@ -18,6 +18,8 @@ class ListViewModel(private val cakeRepository: CakeRepository) : ViewModel() {
     fun refresh() {
         cakes.value = Result.Loading
         viewModelScope.launch {
+            // This loads very quickly and animation is not always visible. A delay can be added
+            // here to make it more obvious for testing purposes, e.g. delay(2000)
             try {
                 val newCakes = cakeRepository.getUniqueCakes().sortedBy { it.title }
                 cakes.postValue(Result.Success(newCakes))

@@ -16,6 +16,7 @@ class ListActivity : BaseActivity() {
     private val adapter = CakeAdapter()
 
     override fun onCreate(savedInstanceState: Bundle?) {
+        setTheme(R.style.AppTheme_NoActionBar)
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_list)
         setSupportActionBar(toolbar)
@@ -25,13 +26,12 @@ class ListActivity : BaseActivity() {
             adapter = this@ListActivity.adapter
         }
 
-        swipe_refresh_layout.setOnRefreshListener {
-            viewModel.refresh()
+        swipe_refresh_layout.apply {
+            setColorSchemeColors(resources.getColor(R.color.colorAccent, theme))
+            setOnRefreshListener {
+                viewModel.refresh()
+            }
         }
-    }
-
-    override fun onResume() {
-        super.onResume()
 
         viewModel.cakes.observe(this, Observer {
             when (it) {
@@ -40,8 +40,9 @@ class ListActivity : BaseActivity() {
                 }
                 is Result.Success -> {
                     showLoading(false)
+                    // Trigger the animation on first load
+                    if (adapter.itemCount == 0) recycler_view.scheduleLayoutAnimation()
                     adapter.submitList(it.cakes)
-                    recycler_view.scheduleLayoutAnimation()
                 }
                 is Result.Error -> {
                     showLoading(false)
