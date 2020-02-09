@@ -1,8 +1,8 @@
 package com.waracle.cakelist.di
 
-import androidx.fragment.app.FragmentActivity
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
+import androidx.lifecycle.ViewModelStoreOwner
 import com.waracle.cakelist.ui.list.ListViewModel
 import org.kodein.di.Kodein
 import org.kodein.di.KodeinAware
@@ -19,6 +19,6 @@ inline fun <reified T : ViewModel> Kodein.Builder.bindViewModel(overrides: Boole
     return bind<T>(T::class.java.simpleName, overrides)
 }
 
-inline fun <reified VM : ViewModel, T> T.viewModel(): Lazy<VM> where T : KodeinAware, T : FragmentActivity {
+inline fun <reified VM : ViewModel, T> T.viewModel(): Lazy<VM> where T : KodeinAware, T : ViewModelStoreOwner {
     return lazy { ViewModelProvider(this, direct.instance()).get(VM::class.java) }
 }
