@@ -38,7 +38,10 @@ class CakeViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
     fun bind(cake: Cake) {
         itemView.apply {
             // Some URLs with http scheme don't load so replacing with https fixes
-            Glide.with(this).load(cake.image.replace("http://", "https://")).into(cake_image)
+            Glide.with(this)
+                .load(cake.image.replace("http://", "https://"))
+                .centerCrop()
+                .into(cake_image)
             cake_title.text = cake.title.capitalize()
             setOnClickListener {
                 AlertDialog.Builder(context)

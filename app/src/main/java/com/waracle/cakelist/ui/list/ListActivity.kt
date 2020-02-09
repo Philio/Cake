@@ -28,6 +28,10 @@ class ListActivity : BaseActivity() {
         swipe_refresh_layout.setOnRefreshListener {
             viewModel.refresh()
         }
+    }
+
+    override fun onResume() {
+        super.onResume()
 
         viewModel.cakes.observe(this, Observer {
             when (it) {
@@ -37,6 +41,7 @@ class ListActivity : BaseActivity() {
                 is Result.Success -> {
                     showLoading(false)
                     adapter.submitList(it.cakes)
+                    recycler_view.scheduleLayoutAnimation()
                 }
                 is Result.Error -> {
                     showLoading(false)
